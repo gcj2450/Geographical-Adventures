@@ -35,6 +35,7 @@ public class ReadCityPosition : MonoBehaviour
         for (int i = 0; i < cities.Count; i++)
         {
             GameObject go = Instantiate(textPrefab);
+            go.SetActive(true);
             go.transform.SetParent(textPrefab.transform.parent);
             go.GetComponent<Text>().text = cities[i].name;
 

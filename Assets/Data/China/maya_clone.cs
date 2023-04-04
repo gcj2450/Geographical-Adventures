@@ -12,6 +12,8 @@ public class maya_clone : MonoBehaviour
 
     private Vector3 orbt_xform_original;
 
+    public float MinDist = 150;
+    public float MaxDist = 250;
 
     // Use this for initialization
     void Start()
@@ -63,12 +65,16 @@ public class maya_clone : MonoBehaviour
 
         if (wheelie < 0) // back
         {
+            //缩小,后退
+            Debug.Log("wheelie < 0");
             var currentZoomSpeed = 100f;
             transform.Translate(Vector3.forward * (wheelie * currentZoomSpeed));
 
         }
         if (wheelie > 0) // back
         {
+            //放大,前进
+            Debug.Log("wheelie > 0");
             var currentZoomSpeed = 100f;
             transform.Translate(Vector3.forward * (wheelie * currentZoomSpeed));
 
@@ -80,23 +86,7 @@ public class maya_clone : MonoBehaviour
         // Distance between camera and orbitVector. We'll need this in a few places
         var distanceToOrbit = Vector3.Distance(transform.position, orbitVector.transform.position);
 
-        //RMB - ZOOM
-        if (Input.GetMouseButton(1))
-        {
-
-            // Refine the rotateSpeed based on distance to orbitVector
-            var currentZoomSpeed = Mathf.Clamp(zoomSpeed * (distanceToOrbit / 50), 0.1f, 2.0f);
-
-            // Move the camera in/out
-            transform.Translate(Vector3.forward * (x * currentZoomSpeed));
-
-            // If about to collide with the orbitVector, repulse the orbitVector slightly to keep it in front of us
-            if (Vector3.Distance(transform.position, orbitVector.transform.position) < 3)
-            {
-                orbitVector.transform.Translate(Vector3.forward, transform);
-            }
-        }
-        else if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
 
             // Refine the rotateSpeed based on distance to orbitVector

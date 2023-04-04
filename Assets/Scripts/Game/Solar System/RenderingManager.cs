@@ -16,7 +16,7 @@ public class RenderingManager : MonoBehaviour
 	Camera cam;
 
 	public Mesh mesh;
-	//public Material mat;
+	public Material mat;
 	public SolarSystem.Moon moon;
 
 	void OnEnable()
