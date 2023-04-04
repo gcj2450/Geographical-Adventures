@@ -373,7 +373,7 @@ MonoBehaviour:
   countryData: {fileID: 11400000, guid: 1bd34af60df8cb04197d7f07dc9ddf72, type: 2}
   vertexCompute: {fileID: 7200000, guid: a8b469a79e147084aab929978c7d6ecc, type: 3}
   meshNormalsCompute: {fileID: 7200000, guid: 202973355476fb84687180c65f0adbfd, type: 3}
-  testMat: {fileID: 2100000, guid: ad7c91f80fa28f249a238e0ed8bcbab3, type: 2}
+  testMat: {fileID: 2100000, guid: 512a8306ab97c9946bf0d3024ab7b8c4, type: 2}
   polygonProcessor: {fileID: 1778711278}
   coastline: {fileID: 2125986101}
   heightSettings: {fileID: 11400000, guid: 159ce22bf92aee440ad10625d3e3a8e9, type: 2}
@@ -561,7 +561,7 @@ MonoBehaviour:
   countryData: {fileID: 11400000, guid: 1bd34af60df8cb04197d7f07dc9ddf72, type: 2}
   vertexCompute: {fileID: 7200000, guid: a8b469a79e147084aab929978c7d6ecc, type: 3}
   meshNormalsCompute: {fileID: 7200000, guid: 202973355476fb84687180c65f0adbfd, type: 3}
-  testMat: {fileID: 2100000, guid: ad7c91f80fa28f249a238e0ed8bcbab3, type: 2}
+  testMat: {fileID: 2100000, guid: 512a8306ab97c9946bf0d3024ab7b8c4, type: 2}
   polygonProcessor: {fileID: 1778711278}
   coastline: {fileID: 2125986101}
   heightSettings: {fileID: 11400000, guid: 159ce22bf92aee440ad10625d3e3a8e9, type: 2}
