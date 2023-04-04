@@ -34,7 +34,7 @@ namespace TerrainGeneration
 				holes[i] = polygon.Holes[i].GetPointsAsVector2();
 			}
 
-			int[] triangles = Triangulate(polygon.paths[0].GetPointsAsVector2(), Path.GetPointsAsVector2(innerPoints), holes, reverseTriangleOrder);
+			int[] triangles = Triangulate(polygon.paths[0].GetPointsAsVector2(), PolyLine.GetPointsAsVector2(innerPoints), holes, reverseTriangleOrder);
 			return triangles;
 		}
 

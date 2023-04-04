@@ -82,7 +82,7 @@ public class CountryReader
 		}
 
 		List<Polygon> polygons = new List<Polygon>();
-		List<Path> pathsInCurrentPolygon = new List<Path>();
+		List<PolyLine> pathsInCurrentPolygon = new List<PolyLine>();
 		List<Coordinate> coordList = new List<Coordinate>();
 
 		// Read shape data from geometry array
@@ -101,7 +101,7 @@ public class CountryReader
 			{
 				//	Debug.Log("Finished path " + pointsList[0] + "  -> " + pointsList[pointsList.Count - 1]);
 				coordList.Add(coordList[0]); // duplicate start point at end for conveniece in some other code
-				Path path = new Path() { points = coordList.ToArray() };
+				PolyLine path = new PolyLine() { points = coordList.ToArray() };
 				pathsInCurrentPolygon.Add(path);
 
 				coordList.Clear();

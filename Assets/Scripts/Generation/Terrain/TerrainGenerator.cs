@@ -153,7 +153,7 @@ namespace TerrainGeneration
 
 		PolygonMeshData CreateCountryPolygonMesh(Polygon polygon)
 		{
-			Path coordinatePath = polygon.paths[0];
+			PolyLine coordinatePath = polygon.paths[0];
 			ComputeHelper.ResetAppendBuffer(innerVertices2DBuffer);
 
 			// Create bounding box of polygon's sphere points

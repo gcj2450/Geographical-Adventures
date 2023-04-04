@@ -54,10 +54,10 @@ public class MarineLoad : MonoBehaviour
 		return polygons.ToArray();
 	}
 
-	public Path[] Read()
+	public PolyLine[] Read()
 	{
 
-		List<Path> paths = new List<Path>();
+		List<PolyLine> paths = new List<PolyLine>();
 
 		GeoJSON.Net.Feature.FeatureCollection collection = new GeoJSON.Net.Feature.FeatureCollection();
 		collection = JsonConvert.DeserializeObject<GeoJSON.Net.Feature.FeatureCollection>(marineFile.text);
@@ -70,20 +70,20 @@ public class MarineLoad : MonoBehaviour
 				var linestrings = polygon.Coordinates;
 				foreach (var lineString in linestrings)
 				{
-					paths.Add(new Path(GetCoordinates(lineString)));
+					paths.Add(new PolyLine(GetCoordinates(lineString)));
 				}
 			}
 			if (feature.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.LineString)
 			{
 				var lineString = feature.Geometry as GeoJSON.Net.Geometry.LineString;
-				paths.Add(new Path(GetCoordinates(lineString)));
+				paths.Add(new PolyLine(GetCoordinates(lineString)));
 			}
 			if (feature.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.MultiLineString)
 			{
 				var multilineString = feature.Geometry as GeoJSON.Net.Geometry.MultiLineString;
 				foreach (var lineString in multilineString.Coordinates)
 				{
-					paths.Add(new Path(GetCoordinates(lineString)));
+					paths.Add(new PolyLine(GetCoordinates(lineString)));
 				}
 			}
 		}
@@ -93,11 +93,11 @@ public class MarineLoad : MonoBehaviour
 
 	public static Polygon ReadPolygon(GeoJSON.Net.Geometry.Polygon geoPolygon)
 	{
-		List<Path> paths = new List<Path>();
+		List<PolyLine> paths = new List<PolyLine>();
 		var linestrings = geoPolygon.Coordinates;
 		foreach (var lineString in linestrings)
 		{
-			paths.Add(new Path(GetCoordinates(lineString)));
+			paths.Add(new PolyLine(GetCoordinates(lineString)));
 		}
 
 		return new Polygon() { paths = paths.ToArray() };

@@ -18,10 +18,10 @@ public class Coastline : MonoBehaviour
 	}
 
 
-	public Path[] Read()
+	public PolyLine[] Read()
 	{
 
-		List<Path> paths = new List<Path>();
+		List<PolyLine> paths = new List<PolyLine>();
 
 		GeoJSON.Net.Feature.FeatureCollection collection = new GeoJSON.Net.Feature.FeatureCollection();
 		collection = JsonConvert.DeserializeObject<GeoJSON.Net.Feature.FeatureCollection>(coastlineFile.text);
@@ -31,14 +31,14 @@ public class Coastline : MonoBehaviour
 			if (f.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.LineString)
 			{
 				var lineString = f.Geometry as GeoJSON.Net.Geometry.LineString;
-				paths.Add(new Path(GetCoordinates(lineString)));
+				paths.Add(new PolyLine(GetCoordinates(lineString)));
 			}
 			if (f.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.MultiLineString)
 			{
 				var multilineString = f.Geometry as GeoJSON.Net.Geometry.MultiLineString;
 				foreach (var lineString in multilineString.Coordinates)
 				{
-					paths.Add(new Path(GetCoordinates(lineString)));
+					paths.Add(new PolyLine(GetCoordinates(lineString)));
 				}
 			}
 		}
@@ -65,13 +65,13 @@ public class Coastline : MonoBehaviour
 
 	void Draw()
 	{
-		Path[] paths = Read();
+		PolyLine[] paths = Read();
 		OutlineRenderer outlineRenderer = GetComponent<OutlineRenderer>();
 
 
 		List<LineSegment> lineSegments = new List<LineSegment>();
 
-		foreach (Path path in paths)
+		foreach (PolyLine path in paths)
 		{
 			Coordinate[] path2D = path.points;
 

@@ -57,7 +57,7 @@ public class ReadChineseWorldMap : MonoBehaviour
                 JArray Paths = (JArray)geos[i]["geometry"]["coordinates"];
                 Debug.Log($"Polygon  Paths Count:{Paths.Count}");
 
-                country.shape.polygons[0].paths = new Path[Paths.Count];
+                country.shape.polygons[0].paths = new PolyLine[Paths.Count];
                 for (int kk = 0; kk < Paths.Count; kk++)
                 {
                     List<Coordinate> coordList = new List<Coordinate>();
@@ -74,7 +74,7 @@ public class ReadChineseWorldMap : MonoBehaviour
                     }
 
                     coordList.Add(coordList[0]);
-                    Path path = new Path() { points = coordList.ToArray() };
+                    PolyLine path = new PolyLine() { points = coordList.ToArray() };
                     country.shape.polygons[0].paths[kk] = path;
                     coordList.Clear();
                 }
@@ -87,7 +87,7 @@ public class ReadChineseWorldMap : MonoBehaviour
                 for (int kk = 0; kk < mpolys.Count; kk++)
                 {
                     JArray paths = (JArray)mpolys[kk];
-                    country.shape.polygons[kk].paths = new Path[paths.Count];
+                    country.shape.polygons[kk].paths = new PolyLine[paths.Count];
                     for (int ppp = 0; ppp < paths.Count; ppp++)
                     {
                         List<Coordinate> coordList = new List<Coordinate>();
@@ -105,7 +105,7 @@ public class ReadChineseWorldMap : MonoBehaviour
                             Debug.Log($"MultiPolygon pot:{pot.Count}");
                         }
                         coordList.Add(coordList[0]); // duplicate start point at end for conveniece in some other code
-                        Path path = new Path() { points = coordList.ToArray() };
+                        PolyLine path = new PolyLine() { points = coordList.ToArray() };
                         country.shape.polygons[kk].paths[ppp] = path;
                         coordList.Clear();
                     }

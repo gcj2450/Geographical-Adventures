@@ -16,10 +16,10 @@ namespace TerrainGeneration
 
 		HashSet<Vector2> coastlineHash;
 
-		public void Init(RenderTexture heightMap, Path[] coastline)
+		public void Init(RenderTexture heightMap, PolyLine[] coastline)
 		{
 			coastlineHash = new HashSet<Vector2>();
-			foreach (Path path in coastline)
+			foreach (PolyLine path in coastline)
 			{
 				foreach (Coordinate coord in path.points)
 				{
@@ -127,10 +127,10 @@ namespace TerrainGeneration
 
 		public static Polygon RemoveDuplicatesAndEdgePoints(Polygon polygon)
 		{
-			Path[] processedPaths = new Path[polygon.paths.Length];
+			PolyLine[] processedPaths = new PolyLine[polygon.paths.Length];
 			for (int i = 0; i < processedPaths.Length; i++)
 			{
-				processedPaths[i] = new Path(RemoveConsecutiveDuplicatesAndEdgePoints(polygon.paths[i].points));
+				processedPaths[i] = new PolyLine(RemoveConsecutiveDuplicatesAndEdgePoints(polygon.paths[i].points));
 			}
 
 			return new Polygon(processedPaths);
@@ -297,7 +297,7 @@ namespace TerrainGeneration
 		// Run compute shader to calculate where points should be inserted along the outline to better match height map
 		InsertInfo[] CalculateOutlinePointsToInsert(Coordinate[] coords)
 		{
-			ComputeBuffer polygonBuffer = ComputeHelper.CreateStructuredBuffer(Path.GetPointsAsVector2(coords));
+			ComputeBuffer polygonBuffer = ComputeHelper.CreateStructuredBuffer(PolyLine.GetPointsAsVector2(coords));
 			ComputeBuffer resultBuffer = ComputeHelper.CreateAppendBuffer<InsertInfo>(capacity: coords.Length);
 			polygonRefineCompute.SetInt("numPolygonPoints", polygonBuffer.count);
 			polygonRefineCompute.SetBuffer(0, "Polygon", polygonBuffer);
@@ -348,10 +348,10 @@ namespace TerrainGeneration
 
 			Coordinate polygonCentre = GeoMaths.PointToCoordinate(bounds.Centre.normalized);
 
-			Path[] reprojectedPaths = new Path[polygon.paths.Length];
+			PolyLine[] reprojectedPaths = new PolyLine[polygon.paths.Length];
 			for (int i = 0; i < reprojectedPaths.Length; i++)
 			{
-				reprojectedPaths[i] = new Path(Reproject(polygon.paths[i].points, polygonCentre));
+				reprojectedPaths[i] = new PolyLine(Reproject(polygon.paths[i].points, polygonCentre));
 			}
 
 			Coordinate[] reprojectedInnerPoints = Reproject(innerPoints, polygonCentre);
@@ -399,16 +399,16 @@ namespace TerrainGeneration
 
 			public ProcessedPolygon(ProcessedOutline[] processedPaths, Coordinate[] processedInnerPoints, Vector3[] spherePoints)
 			{
-				this.reprojectedOutline = Path.GetPointsAsVector2(processedPaths[0].coordinates);
+				this.reprojectedOutline = PolyLine.GetPointsAsVector2(processedPaths[0].coordinates);
 				this.outlineCoastFlags = processedPaths[0].coastFlags;
-				this.reprojectedInnerPoints = Path.GetPointsAsVector2(processedInnerPoints);
+				this.reprojectedInnerPoints = PolyLine.GetPointsAsVector2(processedInnerPoints);
 				this.spherePoints = spherePoints;
 
 				int numHoles = processedPaths.Length - 1;
 				this.reprojectedHoles = new Vector2[numHoles][];
 				for (int i = 0; i < numHoles; i++)
 				{
-					this.reprojectedHoles[i] = Path.GetPointsAsVector2(processedPaths[i + 1].coordinates);
+					this.reprojectedHoles[i] = PolyLine.GetPointsAsVector2(processedPaths[i + 1].coordinates);
 				}
 			}
 

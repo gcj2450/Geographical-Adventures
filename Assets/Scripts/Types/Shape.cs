@@ -10,9 +10,9 @@ public struct Shape
 public struct Polygon
 {
 	// First path is the outline of the polygon, any subsequent paths are holes to be cut out
-	public Path[] paths;
+	public PolyLine[] paths;
 
-	public Polygon(Path[] paths)
+	public Polygon(PolyLine[] paths)
 	{
 		this.paths = paths;
 	}
@@ -25,7 +25,7 @@ public struct Polygon
 		}
 	}
 
-	public Path Outline
+	public PolyLine Outline
 	{
 		get
 		{
@@ -33,11 +33,11 @@ public struct Polygon
 		}
 	}
 
-	public Path[] Holes
+	public PolyLine[] Holes
 	{
 		get
 		{
-			Path[] holes = new Path[NumHoles];
+			PolyLine[] holes = new PolyLine[NumHoles];
 			for (int i = 0; i < holes.Length; i++)
 			{
 				holes[i] = paths[i + 1];
@@ -48,11 +48,11 @@ public struct Polygon
 }
 
 [System.Serializable]
-public struct Path
+public struct PolyLine
 {
 	public Coordinate[] points;
 
-	public Path(Coordinate[] points)
+	public PolyLine(Coordinate[] points)
 	{
 		this.points = points;
 	}

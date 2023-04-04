@@ -50,7 +50,7 @@ namespace TerrainGeneration
 		{
 			NotifyGenerationStarted();
 
-			Path[] paths = coastlineReader.Read();
+			PolyLine[] paths = coastlineReader.Read();
 			List<Coordinate> allCoastPointsList = new List<Coordinate>();
 			foreach (var path in paths)
 			{
