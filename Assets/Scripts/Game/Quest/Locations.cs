@@ -45,7 +45,11 @@ public class Locations : ScriptableObject
 			int numMajorCities = 0;
 			foreach (City city in cities)
 			{
-				if (city.populationMetro > minorCityPopulationThreshold)
+                if (city == null)
+                {
+                    continue;
+                }
+                if (city.populationMetro > minorCityPopulationThreshold)
 				{
 					numMajorCities++;
 				}
@@ -55,6 +59,10 @@ public class Locations : ScriptableObject
 			for (int i = 0; i < cities.Length; i++)
 			{
 				City city = cities[i];
+				if (city==null)
+				{
+					continue ;
+				}
 				CuratedCity curatedCity = curatedCountry.curatedCities[i];
 
 				Location location = new Location();

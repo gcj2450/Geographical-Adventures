@@ -45,7 +45,7 @@ public class GlobeMapCreator : Generator
 		oceanMeshData = IcoSphere.Generate(oceanResolution, radius);
 		MeshHelper.CreateRendererObject("Ocean", oceanMeshData, oceanMaterial, transform);
 
-		Country[] countries = countryLoader.GetCountries();
+		Country[] countries = countryLoader.GetComponent<ReadChineseWorldMap>().GetCountries();
 		allCountriesMeshData = new SimpleMeshData[countries.Length];
 
 		spherePoints = IcoSphere.Generate(resolution).vertices;
@@ -70,6 +70,12 @@ public class GlobeMapCreator : Generator
 		// Create country meshes
 		for (int i = 0; i < countries.Length; i++)
 		{
+			Debug.Log($"countries[i].name: {countries[i].shape.polygons.Length}");
+			for (int jjk = 0; jjk < countries[i].shape.polygons.Length; jjk++)
+			{
+                Debug.Log($"polygons[i].name: {countries[i].shape.polygons[jjk].paths.Length}");
+            }
+
 			SimpleMeshData countryMeshData = GenerateCountry(countries[i]);
 			string countryName = countries[i].GetPreferredDisplayName();
 			countryMeshData.name = countryName;
@@ -114,10 +120,19 @@ public class GlobeMapCreator : Generator
 		for (int i = 0; i < country.shape.polygons.Length; i++)
 		{
 			// Try get average height. Note: this data is from different source so some names might not match. (TODO: fix)
-			float h = 0;
-			bool a = averageCountryElevations.TryGetValue(country.name, out h);
-			bool b = averageCountryElevations.TryGetValue(country.nameOfficial, out h);
-			bool c = averageCountryElevations.TryGetValue(country.name_long, out h);
+			float h = 5;
+			if (!string.IsNullOrEmpty(country.name))
+			{
+				bool a = averageCountryElevations.TryGetValue(country.name, out h);
+			}
+			if (!string.IsNullOrEmpty(country.nameOfficial))
+			{
+				bool b = averageCountryElevations.TryGetValue(country.nameOfficial, out h);
+			}
+			if (!string.IsNullOrEmpty(country.name_long))
+			{
+				bool c = averageCountryElevations.TryGetValue(country.name_long, out h);
+			}
 			h = h / maxElevation;
 			float elevation = minRaiseHeight + h * raiseHeightMultiplier;
 			SimpleMeshData polygonMeshData = GeneratePolygon(country.shape.polygons[i], elevation, country.name);
@@ -135,7 +150,10 @@ public class GlobeMapCreator : Generator
 	{
 		//DebugExtra.DrawPath(polygon.paths[0].GetPointsAsVector2(), false, Color.red, 1000);
 		List<Coordinate> innerPoints = new List<Coordinate>();
-		Vector2[] originalOutline = polygon.paths[0].GetPointsAsVector2(includeLastPoint: false);
+		Debug.Log($"polygon.paths{ polygon.paths == null}");
+		if (polygon.paths == null)
+			return null;
+        Vector2[] originalOutline = polygon.paths[0].GetPointsAsVector2(includeLastPoint: false);
 		Bounds2D bounds2D = new Bounds2D(originalOutline);
 
 		for (int i = 0; i < spherePoints2D.Length; i++)

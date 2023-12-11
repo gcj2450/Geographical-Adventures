@@ -32,7 +32,7 @@ public class Country
 
 			// If all else is equal, take the first element from the array
 			int penalty = i;
-			if (currentName.Length > 0)
+			if (!string.IsNullOrEmpty( currentName)&&currentName.Length > 0)
 			{
 				// Prefer shorter names
 				penalty += currentName.Length;

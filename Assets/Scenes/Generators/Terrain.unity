@@ -370,7 +370,7 @@ MonoBehaviour:
   numSpherePointsMax: 4008006
   numSpherePointsMin: 252006
   meshCombineMode: 2
-  countryData: {fileID: 11400000, guid: 1bd34af60df8cb04197d7f07dc9ddf72, type: 2}
+  countryData: {fileID: 11400000, guid: 1be9fddcf4b77444b93957654c321f36, type: 2}
   vertexCompute: {fileID: 7200000, guid: a8b469a79e147084aab929978c7d6ecc, type: 3}
   meshNormalsCompute: {fileID: 7200000, guid: 202973355476fb84687180c65f0adbfd, type: 3}
   testMat: {fileID: 2100000, guid: 512a8306ab97c9946bf0d3024ab7b8c4, type: 2}

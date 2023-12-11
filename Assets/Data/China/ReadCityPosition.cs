@@ -14,6 +14,9 @@ using Newtonsoft.Json.Linq;
 using UnityEngine.UI;
 using System.IO;
 
+/// <summary>
+/// 读出城市的经纬度数据，将其转换到球面坐标，然后使用碰撞器根据碰撞射线，将其贴合到地面，记录位置用于下次加载
+/// </summary>
 public class ReadCityPosition : MonoBehaviour
 {
     public TextAsset TextAsset;
@@ -67,31 +70,25 @@ public class ReadCityPosition : MonoBehaviour
                 if (cities[i].name != "台湾省")
                 {
                     Coordinate coord = new Coordinate((float)cities[i].longitude * Mathf.Deg2Rad, (float)cities[i].latitude * Mathf.Deg2Rad);
-                    Vector3 pos = GeoMaths.CoordinateToPoint(coord, 140);
 
-                    Vector3 up = GeoMaths.CoordinateToPoint(coord, 155) - pos;
-                    Physics.queriesHitBackfaces = true;
+                    Vector3 up = GeoMaths.CoordinateToPoint(coord, 255);
                     var raycast = default(RaycastHit);
-                    var isHit = Physics.Raycast(new Ray(pos, up), out raycast, 500);
+                    var isHit = Physics.Raycast(new Ray(up,-up), out raycast, 500);
 
                     if (isHit)
                     {
                         Debug.Log($" raycast.point: {raycast.point}");
                         citiNames[i].transform.position = raycast.point;
-
-                        poss.Add(new cityPos(cities[i].name, raycast.point));
                     }
-                    else
-                        poss.Add(new cityPos(cities[i].name, citiNames[i].transform.position));
-                    Physics.queriesHitBackfaces = false;
+                    poss.Add(new cityPos(cities[i].name, citiNames[i].transform.position, citiNames[i].transform.localEulerAngles));
                 }
                 else
-                    poss.Add(new cityPos(cities[i].name, citiNames[i].transform.position));
+                    poss.Add(new cityPos(cities[i].name, citiNames[i].transform.position, citiNames[i].transform.localEulerAngles));
             }
 
           string posStr=  JsonConvert.SerializeObject(poss);
             Debug.Log(poss.Count);
-            File.WriteAllText(Application.dataPath + "/CityPos.text", posStr, System.Text.Encoding.UTF8);
+            File.WriteAllText(Application.dataPath + "/CityPos.txt", posStr, System.Text.Encoding.UTF8);
         }
     }
 
@@ -112,11 +109,19 @@ public class cityPos
     public float posy = 0;
     public float posz = 0;
 
-    public cityPos(string _name,Vector3 _pos)
+    public float rotx = 0;
+    public float roty = 0;
+    public float rotz = 0;
+
+    public cityPos(string _name,Vector3 _pos,Vector3 _rot)
     {
         name = _name;
         posx = _pos.x;
         posy = _pos.y;
         posz = _pos.z;
+
+        rotx = _rot.x;
+        roty = _rot.y;
+        rotz = _rot.z;
     }
 }

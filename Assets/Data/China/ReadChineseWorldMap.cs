@@ -33,6 +33,9 @@ public class ReadChineseWorldMap : MonoBehaviour
 
         //FeatureCollection featureCollection= JsonConvert.DeserializeObject<FeatureCollection>(str);
         //Debug.Log(featureCollection.features.Count);
+
+        Debug.Log(GetCountries().Length);
+
     }
 
     public Country[] GetCountries()
@@ -46,17 +49,21 @@ public class ReadChineseWorldMap : MonoBehaviour
         {
             Country country = new Country();
             country.name = geos[i]["properties"]["name"].ToString();
-            int polycnt =(int)geos[i]["properties"]["childNum"];
+            //int polycnt =(int)geos[i]["properties"]["childNum"];
+
+            if (country.name=="西撒哈拉")
+            {
+                continue;
+            }
 
             country.shape = new Shape();
-            country.shape.polygons = new Polygon[polycnt];
 
             string typeStr = geos[i]["geometry"]["type"].ToString();
-            if (typeStr== "Polygon")
+            if (typeStr == "Polygon")
             {
                 JArray Paths = (JArray)geos[i]["geometry"]["coordinates"];
                 Debug.Log($"Polygon  Paths Count:{Paths.Count}");
-
+                country.shape.polygons = new Polygon[1];
                 country.shape.polygons[0].paths = new PolyLine[Paths.Count];
                 for (int kk = 0; kk < Paths.Count; kk++)
                 {
@@ -78,12 +85,13 @@ public class ReadChineseWorldMap : MonoBehaviour
                     country.shape.polygons[0].paths[kk] = path;
                     coordList.Clear();
                 }
-               
+
             }
             else if (typeStr == "MultiPolygon")
             {
                 JArray mpolys = (JArray)geos[i]["geometry"]["coordinates"];
                 Debug.Log($"MultiPolygon Count:{mpolys.Count}");
+                country.shape.polygons = new Polygon[mpolys.Count];
                 for (int kk = 0; kk < mpolys.Count; kk++)
                 {
                     JArray paths = (JArray)mpolys[kk];
