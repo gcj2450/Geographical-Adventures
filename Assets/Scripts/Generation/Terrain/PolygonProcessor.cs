@@ -306,6 +306,11 @@ namespace TerrainGeneration
 			polygonRefineCompute.SetFloat("errorThreshold", errorThreshold);
 			polygonRefineCompute.SetInt("numSamples", numSamples);
 
+			Debug.Log($"polygonBuffer.count:{polygonBuffer.count}");
+			if (polygonBuffer.count<=1)
+			{
+				return new InsertInfo[] { };
+			}
 			// Dispatch
 			ComputeHelper.Dispatch(polygonRefineCompute, polygonBuffer.count - 1);
 			// Read result back from gpu

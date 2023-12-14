@@ -55,8 +55,13 @@ namespace TriangleNet.Geometry
 
         public List<ISegment> GetSegments()
         {
+            
             var segments = new List<ISegment>();
-
+            if (Points == null || Points.Count == 0)
+            {
+                UnityEngine.Debug.Log("Points == null || Points.Count == 0");
+                return segments;
+            }
             var p = this.Points;
 
             int count = p.Count - 1;
@@ -129,6 +134,15 @@ namespace TriangleNet.Geometry
 
         private static Point FindPointInPolygon(List<Vertex> contour, int limit, double eps)
         {
+            try
+            {
+
+            
+            if (contour==null|| contour.Count==0)
+            {
+                UnityEngine.Debug.Log("contour==null|| contour.Count==0");
+                return new Point() ;
+            }
             var bounds = new Rectangle();
             bounds.Expand(contour);
 
@@ -202,8 +216,15 @@ namespace TriangleNet.Geometry
                     h = h / 2;
                 }
             }
+            }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogError(ex.Message);
+                throw new Exception();
+            }
 
             throw new Exception();
+
         }
 
         /// <summary>

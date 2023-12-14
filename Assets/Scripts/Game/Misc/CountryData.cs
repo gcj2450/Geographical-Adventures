@@ -80,7 +80,7 @@ public class CountryData : ScriptableObject
 		foreach (Country country in countries)
 		{
 			List<City> citiesInCountry = new List<City>();
-			if (citiesByCountry.TryGetValue(country.alpha3Code, out citiesInCountry))
+			if (country.alpha3Code!=null&&citiesByCountry.TryGetValue(country.alpha3Code, out citiesInCountry))
 			{
 				country.cities = citiesInCountry.ToArray();
 			}

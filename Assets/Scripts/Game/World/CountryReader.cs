@@ -117,9 +117,12 @@ public class CountryReader
 				ReadAhead(1);
 			}
 		}
-
+		Debug.Log(polygons.Count);
+		foreach (var item in polygons)
+		{
+			Debug.Log($"item.paths: {item.paths.Length}, item.NumHoles: {item.NumHoles}");
+		}
 		country.shape = new Shape() { polygons = polygons.ToArray() };
-
 		return country;
 	}
 
