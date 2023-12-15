@@ -12,6 +12,9 @@ public class GoogleEarthCamera : MonoBehaviour
     /// 球体半径
     /// </summary>
     public int SphereRadius = 100;
+    /// <summary>
+    /// 相机距离
+    /// </summary>
     public float CameraDist = 200;
     private Vector3 _mouseStartPos;
     private Vector3 _currentMousePos;
@@ -34,13 +37,15 @@ public class GoogleEarthCamera : MonoBehaviour
         CameraObj.transform.LookAt(transform.position);
     }
 
-    public float zoomSpeed = 5f;
+    /// <summary>
+    /// 缩放速度
+    /// </summary>
+    public float zoomSpeed = 15f;
     public float minZoomDistance = 10f;
     public float maxZoomDistance = 100f;
-    public float slowDownSpeed = 1;
 
     private float zoomDistance = 50f;
-    private Vector3 previousMousePosition;
+
     float zoomInput = 0;
     Vector3 zoomVector = Vector3.zero;
 
@@ -73,8 +78,6 @@ public class GoogleEarthCamera : MonoBehaviour
 
             zoomVector = transform.forward * -zoomInput * zoomSpeed;
             CameraObj.transform.position += zoomVector;
-
-            previousMousePosition = Input.mousePosition;
         }
 
         if (Input.GetKeyUp(KeyCode.O))
