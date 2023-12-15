@@ -15,23 +15,27 @@ public class MouseVelocityDetector : MonoBehaviour
 
     private void Update()
     {
-        Vector3 currentMousePosition = Input.mousePosition;
-        float currentTime = Time.time;
+        if (Input.GetMouseButton(0))
+        {
 
-        // Calculate distance moved since the previous frame
-        Vector3 distanceMoved = currentMousePosition - previousMousePosition;
+            Vector3 currentMousePosition = Input.mousePosition;
+            float currentTime = Time.time;
 
-        // Calculate time elapsed since the previous frame
-        float deltaTime = currentTime - previousTime;
+            // Calculate distance moved since the previous frame
+            Vector3 distanceMoved = currentMousePosition - previousMousePosition;
 
-        // Calculate velocity (distance / time)
-        currentMouseVelocity = distanceMoved / deltaTime;
+            // Calculate time elapsed since the previous frame
+            float deltaTime = currentTime - previousTime;
 
-        // Store current values for the next frame
-        previousMousePosition = currentMousePosition;
-        previousTime = currentTime;
+            // Calculate velocity (distance / time)
+            currentMouseVelocity = distanceMoved / deltaTime;
 
-        // Output velocity for testing
-        Debug.Log("Mouse Velocity: " + currentMouseVelocity);
+            // Store current values for the next frame
+            previousMousePosition = currentMousePosition;
+            previousTime = currentTime;
+
+            // Output velocity for testing
+            Debug.Log("Mouse Velocity: " + currentMouseVelocity);
+        }
     }
 }
